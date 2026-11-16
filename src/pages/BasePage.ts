@@ -1,0 +1,21 @@
+import type { Page } from '@playwright/test';
+import { Header } from './components/Header';
+
+export abstract class BasePage {
+  /** Path of the page relative to `baseURL`. */
+  protected abstract readonly path: string;
+
+  readonly header: Header;
+
+  constructor(protected readonly page: Page) {
+    this.header = new Header(page);
+  }
+
+  async goto(): Promise<void> {
+    await this.page.goto(this.path);
+  }
+
+  get title() {
+    return this.page.getByTestId('title');
+  }
+}
